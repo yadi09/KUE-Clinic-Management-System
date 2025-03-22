@@ -1,0 +1,146 @@
+[
+    {
+        "_id": 1,
+        "Card_number": "STU1001",
+        "Name": "John Doe",
+        "Gender": "Male",
+        "Department": "Computer Science",
+        "Year": 2,
+        "Registration_date": "2025-03-07T08:06:23.067+00:00"
+    },
+    {
+        "_id": 2,
+        "Card_number": "STU1002",
+        "Name": "Jane Smith",
+        "Gender": "Female",
+        "Department": "Business Administration",
+        "Year": 3,
+        "Registration_date": "2025-03-07T08:06:23.067+00:00"
+    },
+    {
+        "_id": 3,
+        "Card_number": "STU1003",
+        "Name": "Michael Johnson",
+        "Gender": "Male",
+        "Department": "Mechanical Engineering",
+        "Year": 1,
+        "Registration_date": "2025-03-07T08:06:23.067+00:00"
+    },
+    {
+        "_id": 4,
+        "Card_number": "STU1004",
+        "Name": "Emily Davis",
+        "Gender": "Female",
+        "Department": "Electrical Engineering",
+        "Year": 4,
+        "Registration_date": "2025-03-07T08:06:23.067+00:00"
+    },
+    {
+        "_id": 5,
+        "Card_number": "STU1005",
+        "Name": "David Martinez",
+        "Gender": "Male",
+        "Department": "Civil Engineering",
+        "Year": 2,
+        "Registration_date": "2025-03-07T08:06:23.067+00:00"
+    },
+    {
+        "_id": 6,
+        "Card_number": "STU1006",
+        "Name": "Sophia Wilson",
+        "Gender": "Female",
+        "Department": "Architecture",
+        "Year": 3,
+        "Registration_date": "2025-03-07T08:06:23.067+00:00"
+    },
+    {
+        "_id": 7,
+        "Card_number": "STU1007",
+        "Name": "James Anderson",
+        "Gender": "Male",
+        "Department": "Law",
+        "Year": 4,
+        "Registration_date": "2025-03-07T08:06:23.067+00:00"
+    },
+    {
+        "_id": 8,
+        "Card_number": "STU1008",
+        "Name": "Olivia Thomas",
+        "Gender": "Female",
+        "Department": "Medicine",
+        "Year": 1,
+        "Registration_date": "2025-03-07T08:06:23.067+00:00"
+    },
+    {
+        "_id": 9,
+        "Card_number": "STU1009",
+        "Name": "Daniel Harris",
+        "Gender": "Male",
+        "Department": "Nursing",
+        "Year": 2,
+        "Registration_date": "2025-03-07T08:06:23.067+00:00"
+    },
+    {
+        "_id": 10,
+        "Card_number": "STU1010",
+        "Name": "Ava Walker",
+        "Gender": "Female",
+        "Department": "Pharmacy",
+        "Year": 3,
+        "Registration_date": "2025-03-07T08:06:23.067+00:00"
+    },
+    {
+        "_id": 11,
+        "Card_number": "STU1011",
+        "Name": "Ethan Lewis",
+        "Gender": "Male",
+        "Department": "Physics",
+        "Year": 4,
+        "Registration_date": "2025-03-07T08:06:23.067+00:00"
+    },
+    {
+        "_id": 12,
+        "Card_number": "STU1012",
+        "Name": "Mia Allen",
+        "Gender": "Female",
+        "Department": "Mathematics",
+        "Year": 1,
+        "Registration_date": "2025-03-07T08:06:23.067+00:00"
+    },
+    {
+        "_id": 13,
+        "Card_number": "STU1013",
+        "Name": "Benjamin Young",
+        "Gender": "Male",
+        "Department": "Statistics",
+        "Year": 2,
+        "Registration_date": "2025-03-07T08:06:23.067+00:00"
+    },
+    {
+        "_id": 14,
+        "Card_number": "STU1014",
+        "Name": "Charlotte King",
+        "Gender": "Female",
+        "Department": "Environmental Science",
+        "Year": 3,
+        "Registration_date": "2025-03-07T08:06:23.067+00:00"
+    },
+    {
+        "_id": 15,
+        "Card_number": "STU1015",
+        "Name": "Alexander Scott",
+        "Gender": "Male",
+        "Department": "Economics",
+        "Year": 4,
+        "Registration_date": "2025-03-07T08:06:23.067+00:00"
+    },
+    {
+        "_id": 16,
+        "Card_number": "STU1016",
+        "Name": "Isabella Adams",
+        "Gender": "Female",
+        "Department": "Political Science",
+        "Year": 1,
+        "Registration_date": "2025-03-07T08:06:23.067+00:00"
+    }
+]

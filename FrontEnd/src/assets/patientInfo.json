@@ -1,0 +1,13 @@
+{
+    "name": "John Doe",
+    "studentId": "STU2025001",
+    "phoneNumber": "+251912345678",
+    "gender": "Male",
+    "department": "Architecture",
+    "age": 22,
+    "dormNumber": "D12-305",
+    "region": "Addis Ababa",
+    "wereda": "04",
+    "kebele": "12",
+    "houseNumber": "45B"
+}
