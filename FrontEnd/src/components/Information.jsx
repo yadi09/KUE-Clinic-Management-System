@@ -29,15 +29,15 @@ const Information = ({ Tpatients = [], title = "Recent" }) => {
                             <div className="text-blue-600">{Tpatient.name}</div>
                             <small className="text-gray-500">
                                 <span>
-                                    {/* {Tpatient.value} */}
-                                    {Tpatient.Date ?
+                                    {Tpatient.value}
+                                    {/* {Tpatient.Date ?
                                         new Date(Tpatient.Date).toLocaleDateString('en-US', {
                                             weekday: 'long',
                                             year: 'numeric',
                                             month: 'long',
                                             day: 'numeric'
                                         })
-                                        : "N/A"}
+                                        : "N/A"} */}
                                 </span>
                                 <span className="ml-2 text-red-500">{Tpatient.Status}</span>
                             </small>

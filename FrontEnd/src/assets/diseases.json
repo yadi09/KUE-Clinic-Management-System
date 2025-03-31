@@ -1,0 +1,32 @@
+[
+    {
+        "disease": "Acute Bronchitis",
+        "description": "Acute bronchitis",
+        "total_patients": 45
+    },
+    {
+        "disease": "Migraine",
+        "description": "Migraine",
+        "total_patients": 32
+    },
+    {
+        "disease": "Allergic Rhinitis",
+        "description": "Allergic rhinitis",
+        "total_patients": 67
+    },
+    {
+        "disease": "Gastritis",
+        "description": "Gastritis",
+        "total_patients": 28
+    },
+    {
+        "disease": "Hypertension",
+        "description": "Hypertension",
+        "total_patients": 55
+    },
+    {
+        "disease": "Anemia",
+        "description": "Anemia",
+        "total_patients": 40
+    }
+]

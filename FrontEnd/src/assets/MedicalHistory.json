@@ -1,0 +1,44 @@
+[
+    {
+        "_id": 1,
+        "CardNumber": "STU2025001",
+        "Diagnostic": "Acute Bronchitis",
+        "Status": "Appointed",
+        "Date": "2025-03-07T08:06:23.067Z"
+    },
+    {
+        "_id": 2,
+        "CardNumber": "STU2025002",
+        "Diagnostic": "Migraine",
+        "Status": "Completed",
+        "Date": "2025-03-06T10:15:30.500Z"
+    },
+    {
+        "_id": 3,
+        "CardNumber": "STU2025003",
+        "Diagnostic": "Allergic Rhinitis",
+        "Status": "Appointed",
+        "Date": "2025-03-05T12:45:10.200Z"
+    },
+    {
+        "_id": 4,
+        "CardNumber": "STU2025004",
+        "Diagnostic": "Gastritis",
+        "Status": "Canceled",
+        "Date": "2025-03-04T14:20:05.300Z"
+    },
+    {
+        "_id": 5,
+        "CardNumber": "STU2025005",
+        "Diagnostic": "Hypertension",
+        "Status": "Completed",
+        "Date": "2025-03-03T16:30:15.800Z"
+    },
+    {
+        "_id": 6,
+        "CardNumber": "STU2025006",
+        "Diagnostic": "Anemia",
+        "Status": "Canceled",
+        "Date": "2025-03-02T09:50:45.600Z"
+    }
+]

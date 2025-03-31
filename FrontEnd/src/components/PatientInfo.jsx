@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import MockPatientInfo from "../assets/patientInfo.json";
 
-const PatientInfo = ({ title = "Patient Information" }) => {
+const PatientInfo = ({ title = "Patient Information", isPatientProfile = flase }) => {
     // State for form fields
     const [formData, setFormData] = useState({
         name: MockPatientInfo.name,
@@ -144,16 +145,37 @@ const PatientInfo = ({ title = "Patient Information" }) => {
                     ))}
                 </div>
 
-                {/* Buttons */}
-                <div className="flex space-x-4">
-                    <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition">
-                        Create Patient
-                    </button>
-                    <button type="reset" className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition"
-                        onClick={() => setFormData({ ...formData, name: "", studentId: "", phoneNumber: "" })}>
-                        Reset
-                    </button>
+                {/* Buttons & Link Wrapper */}
+                <div className="flex items-center w-full">
+                    {/* Left Side: Buttons */}
+                    {!isPatientProfile && (
+                        <div className="flex space-x-4">
+                            <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition">
+                                Create Patient
+                            </button>
+                            <button
+                                type="reset"
+                                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition"
+                                onClick={() => setFormData({ ...formData, name: "", studentId: "", phoneNumber: "" })}
+                            >
+                                Reset
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Push "Medical Histories" link to the right */}
+                    {isPatientProfile && (
+                        <div className="ml-auto">
+                            <Link
+                                to={`/patients/2/medical-history`}
+                                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+                            >
+                                Medical Histories
+                            </Link>
+                        </div>
+                    )}
                 </div>
+
                 {/* Success/Error Message */}
                 {message && <p className={`mt-4 text-sm ${isError ? "text-red-500" : "text-green-500"}`}>{message}</p>}
             </form>

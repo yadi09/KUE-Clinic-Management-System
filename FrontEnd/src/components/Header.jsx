@@ -32,7 +32,7 @@ const Header = () => {
                     // If user is not logged in, show login/register links
                     <>
                         <Link to="/login" className="text-blue-600 hover:text-blue-800">Login</Link>
-                        <Link to="/register" className="text-blue-600 hover:text-blue-800">Register</Link>
+                        {/* <Link to="/register" className="text-blue-600 hover:text-blue-800">Register</Link> */}
                     </>
                 )}
             </div>

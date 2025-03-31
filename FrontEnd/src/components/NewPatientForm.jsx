@@ -1,19 +1,21 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import MockPatientInfo from "../assets/patientInfo.json";
 
-const NewPatient = ({ title = "New Patient" }) => {
+const NewPatient = ({ title = "New Patient", isPatientProfile = false }) => {
     // State for form fields
     const [formData, setFormData] = useState({
-        name: "",
-        studentId: "",
-        phoneNumber: "",
-        gender: "",
-        department: "",
-        age: "",
-        dormNumber: "",
-        region: "",
-        wereda: "",
-        kebele: "",
-        houseNumber: "",
+        name: MockPatientInfo.name || "",
+        studentId: MockPatientInfo.studentId || "",
+        phoneNumber: MockPatientInfo.phoneNumber || "",
+        gender: MockPatientInfo.gender || "",
+        department: MockPatientInfo.department || "",
+        age: MockPatientInfo.age || "",
+        dormNumber: MockPatientInfo.dormNumber || "",
+        region: MockPatientInfo.region || "",
+        wereda: MockPatientInfo.wereda || "",
+        kebele: MockPatientInfo.kebele || "",
+        houseNumber: MockPatientInfo.houseNumber || "",
     });
 
     // State for messages
@@ -145,14 +147,31 @@ const NewPatient = ({ title = "New Patient" }) => {
 
                 {/* Buttons */}
                 <div className="flex space-x-4">
-                    <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition">
-                        Create Patient
-                    </button>
-                    <button type="reset" className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition"
-                        onClick={() => setFormData({ ...formData, name: "", studentId: "", phoneNumber: "" })}>
-                        Reset
-                    </button>
+                    {isPatientProfile ? (
+                        // If on Patient Profile, show "Medical Histories" link aligned left
+                        <button
+                            onClick={() => navigate(`/patients/${patientId}/medical-histories`)}
+                            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+                        >
+                            Update
+                        </button>
+                    ) : (
+                        // If on New Patient page, show "Create Patient" and "Reset" buttons
+                        <>
+                            <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition">
+                                Create Patient
+                            </button>
+                            <button
+                                type="reset"
+                                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition"
+                                onClick={() => setFormData({ ...formData, name: "", studentId: "", phoneNumber: "" })}
+                            >
+                                Reset
+                            </button>
+                        </>
+                    )}
                 </div>
+
                 {/* Success/Error Message */}
                 {message && <p className={`mt-4 text-sm ${isError ? "text-red-500" : "text-green-500"}`}>{message}</p>}
             </form>

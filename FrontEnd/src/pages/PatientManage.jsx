@@ -31,7 +31,7 @@ const Ticket = () => {
 
                 {/* Right Side: Open Ticket Form */}
                 <div className="w-full lg:w-3/4">
-                    <NewPatientForm title="Update Patient Data" />
+                    <NewPatientForm title="Update Patient Data" isPatientProfile />
                     <UpdateAsign />
                 </div>
             </section>

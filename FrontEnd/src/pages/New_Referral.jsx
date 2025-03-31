@@ -5,24 +5,16 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Information from '../components/Information';
 import Support from '../components/Support';
-import PatientInfo from '../components/PatientInfo';
-import TableComponent from '../components/TableComponent';
-import MockData from '../assets/patient.json';
-import MockTdata from '../assets/total.json';
-import MockMHdata from '../assets/recentPatientMH.json';
+import Referral_Form from '../components/Referral_Form';
+import MockData from '../assets/MedicalHistory.json';
+import MockTdata from '../assets/patientData.json';
 
-const PatientProfile = () => {
+const NewReferral = () => {
     // const { tickets, loading, error } = useContext(TicketContext);
-    const patients = MockData;
+    const MedicalHistory = MockData;
     const Tpatients = MockTdata;
     const loading = false;
     const error = null;
-
-    const jsonData = MockMHdata;
-    jsonData.forEach(record => {
-        const formattedDate = new Date(record.Date).toLocaleString();
-        console.log(`${record.Patient_Name}: ${formattedDate} - ${record.Status}`);
-    });
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -30,18 +22,17 @@ const PatientProfile = () => {
             <NavBar />
             <section className="w-[90%] mx-auto flex flex-col lg:flex-row p-4 gap-4 flex-grow">
                 <div className="w-full lg:w-1/4 space-y-4">
-                    <Information Tpatients={jsonData} title="Recent Medical History" />
+                    <Information Tpatients={Tpatients} title="Patient Information" />
                     <Support />
                 </div>
-                <div className="w-full lg:w-3/4 space-y-4">
-                    <PatientInfo isPatientProfile />
+                <div className="w-full lg:w-3/4">
                     {loading ? (
                         <div className="flex items-center text-blue-600 text-lg justify-center">
                             <AiOutlineLoading3Quarters className="animate-spin mr-2 text-3xl" />
                             Loading tickets...
                         </div>
                     ) : (
-                        <TableComponent patients={patients} title="Assigned Patients" />
+                        <Referral_Form title="Add Referral" />
                     )}
                 </div>
             </section>
@@ -50,4 +41,4 @@ const PatientProfile = () => {
     );
 }
 
-export default PatientProfile
+export default NewReferral
