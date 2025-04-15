@@ -1,1 +1,1 @@
- KUE Clinic Management System (Under Development............)
+ KUE Clinic Management System (Under Development ...)
