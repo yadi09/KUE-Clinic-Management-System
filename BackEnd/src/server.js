@@ -20,7 +20,7 @@ const app = express();
 
 // Middleware
 const corsOptions = {
-    origin: "http://127.0.0.1:5173", // Replace with your frontend URL
+    origin: process.env.PORT, // Replace with your frontend URL
     credentials: true, // Allow cookies & auth headers
 };
 app.use(cors(corsOptions));
