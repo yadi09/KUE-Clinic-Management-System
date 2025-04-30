@@ -6,7 +6,8 @@ import Footer from '../components/Footer';
 import Information from '../components/Information';
 import Support from '../components/Support';
 import PatientInfo from '../components/PatientInfo';
-import TableComponent from '../components/TableComponent';
+// import TableComponent from '../components/TableComponent';
+import MH_Table from '../components/MH_Table';
 import MockData from '../assets/patient.json';
 import MockTdata from '../assets/total.json';
 import MockMHdata from '../assets/recentPatientMH.json';
@@ -41,7 +42,7 @@ const PatientProfile = () => {
                             Loading tickets...
                         </div>
                     ) : (
-                        <TableComponent patients={patients} title="Assigned Patients" />
+                        <MH_Table MedicalHistory={jsonData} title="Medical Histories" MHs />
                     )}
                 </div>
             </section>

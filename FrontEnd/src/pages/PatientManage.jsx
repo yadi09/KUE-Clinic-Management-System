@@ -12,7 +12,7 @@ import MockTdata from '../assets/total.json'
 // import { AuthContext } from "../context/AuthContext";
 
 
-const Ticket = () => {
+const PatientManage = () => {
     const patients = MockData;
     const Tpatients = MockTdata;
     // const { tickets } = useContext(TicketContext);
@@ -40,4 +40,4 @@ const Ticket = () => {
     );
 };
 
-export default Ticket;
+export default PatientManage;

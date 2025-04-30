@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
-import NewPatientForm from '../components/NewPatientForm';
+import PatientForm from '../components/PatientForm';
 import Footer from '../components/Footer';
 import Information from '../components/Information';
 import Support from '../components/Support';
@@ -30,7 +30,7 @@ const Ticket = () => {
 
                 {/* Right Side: Open Ticket Form */}
                 <div className="w-full lg:w-3/4">
-                    <NewPatientForm />
+                    <PatientForm />
                 </div>
             </section>
             <Footer />

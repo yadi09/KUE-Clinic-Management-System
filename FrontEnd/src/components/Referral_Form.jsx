@@ -127,30 +127,28 @@ const Referral_Form = ({ title = "New Patient" }) => {
 
                 {/* Vital Sign */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">B/P:</label>
-                        <input type="text" name="name" id="name" value={formData.name} onChange={handleChange}
-                            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
-                            placeholder="Enter your name" required />
-                    </div>
-                    <div>
-                        <label htmlFor="studentId" className="block text-sm font-medium text-gray-700">P/R:</label>
-                        <input type="text" name="studentId" id="studentId" value={formData.studentId} onChange={handleChange}
-                            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
-                            placeholder="Enter your Student ID" required />
-                    </div>
-                    <div>
-                        <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">T/O:</label>
-                        <input type="text" name="phoneNumber" id="phoneNumber" value={formData.phoneNumber} onChange={handleChange}
-                            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
-                            placeholder="Enter your Phone Number" required />
-                    </div>
-                    <div>
-                        <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">R/R:</label>
-                        <input type="text" name="phoneNumber" id="phoneNumber" value={formData.phoneNumber} onChange={handleChange}
-                            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
-                            placeholder="Enter your Phone Number" required />
-                    </div>
+                    {[
+                        { label: "B/P:", name: "bp", placeholder: "Enter blood pressure" },
+                        { label: "P/R:", name: "pr", placeholder: "Enter pulse rate" },
+                        { label: "T/O:", name: "to", placeholder: "Enter temperature" },
+                        { label: "R/R:", name: "rr", placeholder: "Enter respiratory rate" }
+                    ].map((field) => (
+                        <div key={field.name}>
+                            <label htmlFor={field.name} className="block text-sm font-medium text-gray-700">
+                                {field.label}
+                            </label>
+                            <input
+                                type="text"
+                                name={field.name}
+                                id={field.name}
+                                value={formData[field.name] || ""}
+                                onChange={handleChange}
+                                className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                placeholder={field.placeholder}
+                                required
+                            />
+                        </div>
+                    ))}
                 </div>
 
 

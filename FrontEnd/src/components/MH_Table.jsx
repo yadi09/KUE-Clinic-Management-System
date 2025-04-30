@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { MdOutlineErrorOutline } from 'react-icons/md'; // You can use any icon library
 import Button from './Button';
 
-const MH_Table = ({ MedicalHistory, title = "NO Title" }) => {
+const MH_Table = ({ MedicalHistory, title = "NO Title", MHs = false }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const patientsPerPage = 10;
     const navigate = useNavigate();
+    const patientId = useParams().id;
 
     // Global search: Filter patients based on search term across all fields
     const filteredPatients = MedicalHistory.filter(patient =>
@@ -77,10 +78,18 @@ const MH_Table = ({ MedicalHistory, title = "NO Title" }) => {
 
             {/* Create New Medical History Button */}
             <div className="flex justify-end mb-4">
-                <Button
-                    onClick={() => navigate('/patients/2/medical-history/new')}
-                    title="Create New Medical History"
-                />
+                {MHs ? (
+                    <Button
+                        onClick={() => navigate(`/patients/${patientId}/medical-history/`)}
+                        title="Medical Histories"
+                    />
+                ) : (
+
+                    <Button
+                        onClick={() => navigate(`/patients/${patientId}/medical-history/new`)}
+                        title="Create Medical History"
+                    />
+                )}
             </div>
 
             {/* Empty state when no tickets are available */}

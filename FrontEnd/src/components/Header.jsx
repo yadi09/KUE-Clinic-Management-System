@@ -1,18 +1,17 @@
-import React, { use } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from "../assets/KUE_logo.png";
+import { useAuth } from '../context/AuthContext'; // Import the useAuth hook
 // import { AuthContext } from '../context/AuthContext'; // Import the AuthContext
 // import { TicketContext } from '../context/TicketContext'; // Import the TicketContext
 
 const Header = () => {
-    const user = null;
-    // const { user, logoutUser } = useContext(AuthContext); // Get user and logoutUser from context
-    // const { setTickets } = useContext(TicketContext); // Get setTickets from context
+    const { user, logout } = useAuth(); // Get user and logoutUser from context
 
-    // const handleLogout = () => {
-    //     // Trigger logout when user clicks on the logout button
-    //     logoutUser(setTickets);
-    // };
+    const handleLogout = () => {
+        // Trigger logout when user clicks on the logout button
+        logout();
+    };
 
     return (
         <header className="flex justify-between items-center p-4 border-b">
@@ -23,7 +22,7 @@ const Header = () => {
                 {user ? (
                     // If user is logged in, show the logout button
                     <button
-                        // onClick={handleLogout}
+                        onClick={handleLogout}
                         className="text-blue-600 cursor-pointer hover:text-blue-800"
                     >
                         Logout

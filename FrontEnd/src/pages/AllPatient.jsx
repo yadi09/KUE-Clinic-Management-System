@@ -32,7 +32,7 @@ const AllPatient = () => {
                             Loading tickets...
                         </div>
                     ) : (
-                        <TableComponent patients={patients} title="All Patients" />
+                        <TableComponent title="All Patients" />
                     )}
                 </div>
             </section>

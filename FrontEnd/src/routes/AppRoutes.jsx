@@ -14,7 +14,12 @@ import NewPrescription from '../pages/NewPrescription';
 import Dashboard from '../components/AdminDashboard';
 import AdminPage from '../pages/AdminPage';
 import ErrorPageContainer from '../pages/ErrorPage';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import Unauthorized from '../pages/UnauthorizedPage';
+
+import PrescriptionFormat from '../components/PrescriptionPrintFormat';
+
+import { Route, Routes } from 'react-router-dom';
+import ProtectedRoute from './ProtectedRoute';
 
 function AppRoutes() {
     return (
@@ -26,22 +31,40 @@ function AppRoutes() {
 
             <Route path="/patients" element={<AllPatient />} />
             <Route path="/patients/new" element={<NewPatient />} />
-            <Route path="/patients/:id/manage" element={<PatientManage />} />
-            <Route path="/patients/:id" element={<PatientProfile />} />
-            <Route path='/patients/:id/medical-history' element={<PatientMH />} />
-            <Route path='/patients/:id/medical-history/new' element={<New_MedicalHistory />} />
-            <Route path="/patients/:id/referrals/new" element={<New_Referral />} />
-            <Route path="/patients/:id/prescriptions/new" element={<NewPrescription />} />
-            <Route path="/doctor/patients" element={<AssignedPatient />} />
 
+            {/* Protected Routes */}
+            <Route element={<ProtectedRoute allowedRoles={["receptionist", "admin"]} />}>
+                <Route path="/patients/:id/manage" element={<PatientManage />} />
+            </Route>
 
-            <Route path="/admin" element={<AdminPage />}>
-                <Route path="dashboard" element={<Dashboard />} />
+            <Route element={<ProtectedRoute allowedRoles={["admin", "doctor"]} />}>
+                <Route path="/patients/:id" element={<PatientProfile />} />
+                <Route path='/patients/:id/medical-history' element={<PatientMH />} />
+                <Route path='/patients/:id/medical-history/new' element={<New_MedicalHistory />} />
+                <Route path="/patients/:id/medical-history/:mhId" element={<New_MedicalHistory />} />
+                <Route path="/patients/:id/medical-history/:mhId/referrals/new" element={<New_Referral />} />
+                <Route path="/patients/:id/medical-history/:mhId/prescriptions/new" element={<NewPrescription />} />
+            </Route>
+
+            <Route element={<ProtectedRoute allowedRoles={["doctor"]} />}>
+                <Route path="/doctor/patients" element={<AssignedPatient />} />
             </Route>
 
 
+            <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+                <Route path="/admin" element={<AdminPage />}>
+                    <Route path="dashboard" element={<Dashboard />} />
+                </Route>
+            </Route>
+
+            {/* <Route path='/prescriptionFormat' element={<PrescriptionFormat />} /> */}
+
+            {/* Redirect to login if not authenticated */}
+            <Route path="/unauthorized" element={<Unauthorized />} />
+
             {/* Redirect unknown routes to login */}
             <Route path="*" element={<ErrorPageContainer />} />
+
 
         </Routes >
     );

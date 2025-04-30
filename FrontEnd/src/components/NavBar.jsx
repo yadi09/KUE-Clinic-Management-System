@@ -1,33 +1,79 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'; // Import the useAuth hook
 
 const NavBar = () => {
+    const { user } = useAuth(); // Get user from context
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const role = user?.role;
+
+    const renderLinks = () => {
+        switch (role) {
+            case 'receptionist':
+                return (
+                    <>
+                        <Link to="/patients" className="text-white hover:text-gray-200">Patients</Link>
+                        <Link to="/patients/new" className="text-white hover:text-gray-200">New Patient</Link>
+                        <Link to="#" className="text-white hover:text-gray-200">Appointment</Link>
+                    </>
+                );
+            case 'doctor':
+            case 'admin':
+                return (
+                    <>
+                        <Link to="/patients" className="text-white hover:text-gray-200">Patient</Link>
+                        <Link to="#" className="text-white hover:text-gray-200">Medical History</Link>
+                        <Link to="#" className="text-white hover:text-gray-200">Appointment</Link>
+                        <Link to="#" className="text-white hover:text-gray-200">Prescription</Link>
+                        <Link to="#" className="text-white hover:text-gray-200">Referrals</Link>
+                    </>
+                );
+            default:
+                <>
+                    <Link to="#" className="text-white hover:text-gray-200">
+                        Kotebe University Clinic Managment System</Link>
+                </>
+        }
+    };
+
+    const renderMobileLinks = () => {
+        switch (role) {
+            case 'receptionist':
+                return (
+                    <>
+                        <a href="/patients" className="block px-4 py-2 hover:bg-blue-400">Patients</a>
+                        <a href="/patients/new" className="block px-4 py-2 hover:bg-blue-400">New Patient</a>
+                        <a href="/appointment" className="block px-4 py-2 hover:bg-blue-400">Appointment</a>
+                    </>
+                );
+            case 'doctor':
+            case 'admin':
+            default:
+                return (
+                    <>
+                        <a href="/patients" className="block px-4 py-2 hover:bg-blue-400">Patient</a>
+                        <a href="#" className="block px-4 py-2 hover:bg-blue-400">Medical History</a>
+                        <a href="#" className="block px-4 py-2 hover:bg-blue-400">Appointment</a>
+                        <a href="#" className="block px-4 py-2 hover:bg-blue-400">Prescription</a>
+                        <a href="#" className="block px-4 py-2 hover:bg-blue-400">Referrals</a>
+                    </>
+                );
+        }
+    };
 
     return (
         <nav className="bg-blue-500 p-4">
             <div className="max-w-screen-xl mx-auto flex items-center justify-between">
-                {/* Left side - Navigation links */}
+                {/* Desktop Links */}
                 <div className="hidden md:flex space-x-4">
-                    <Link to="/patients" className="text-white hover:text-gray-200">
-                        Patient
-                    </Link>
-                    <Link to="/medical-history" className="text-white hover:text-gray-200">
-                        Medical History
-                    </Link>
-                    <Link to="/appointment" className="text-white hover:text-gray-200">
-                        Appointment
-                    </Link>
-                    <Link to="/prescription" className="text-white hover:text-gray-200">
-                        Prescription
-                    </Link>
-                    <Link to="/referrals" className="text-white hover:text-gray-200">
-                        Referrals
-                    </Link>
+                    {renderLinks()}
                 </div>
 
-                {/* Right side - Welcome text */}
-                <div className="text-white hidden md:block">Welcome</div>
+                {/* Welcome Message */}
+                <div className="text-white hidden md:block">
+                    Welcome {user?.name || ""}
+                </div>
 
                 {/* Mobile Menu Button */}
                 <button
@@ -51,36 +97,14 @@ const NavBar = () => {
                 </button>
             </div>
 
-            {/* Mobile Menu */}
-            {
-                isMenuOpen && (
-                    <div className="md:hidden bg-blue-500 text-white">
-                        <a href="/patients" className="block px-4 py-2 hover:bg-blue-400">
-                            Patient
-                        </a>
-                        <a
-                            href="/medical-history"
-                            className="block px-4 py-2 hover:bg-blue-400"
-                        >
-                            Medical History
-                        </a>
-                        <a href="/appointment" className="block px-4 py-2 hover:bg-blue-400">
-                            Appointment
-                        </a>
-                        <a
-                            href="/prescription"
-                            className="block px-4 py-2 hover:bg-blue-400"
-                        >
-                            Prescription
-                        </a>
-                        <a href="/referrals" className="block px-4 py-2 hover:bg-blue-400">
-                            Referrals
-                        </a>
-                    </div>
-                )
-            }
-        </nav >
+            {/* Mobile Links */}
+            {isMenuOpen && (
+                <div className="md:hidden bg-blue-500 text-white">
+                    {renderMobileLinks()}
+                </div>
+            )}
+        </nav>
     );
 };
 
-export default NavBar
+export default NavBar;

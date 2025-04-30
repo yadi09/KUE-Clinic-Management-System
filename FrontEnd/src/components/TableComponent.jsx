@@ -1,19 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineErrorOutline } from 'react-icons/md'; // You can use any icon library
+import { usePatient } from '../context/PatientContext'; // Adjust the import based on your API structure
+import { useAuth } from '../context/AuthContext'; // Adjust the import based on your API structure
+import { useDoctor } from '../context/DoctorContext'; // Adjust the import based on your API structure
 
-const TableComponent = ({ patients, title = "NO Title" }) => {
+const TableComponent = ({ title = "NO Title" }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const patientsPerPage = 10;
     const navigate = useNavigate();
+    const { patients, fetchAllPatients } = usePatient();
+    const { user } = useAuth(); // Get user from AuthContext
+    const { fetchAssignedPatientsToDoctor, assignedPatients } = useDoctor(); // Get fetchAssignPatientToDoctor from DoctorContext
 
-    // Global search: Filter patients based on search term across all fields
-    const filteredPatients = patients.filter(patient =>
+    // Fetch All Patients
+    useEffect(() => {
+        console.log("User in TableComponent: ", user);
+        if (user?.role === "receptionist" || user?.role === "admin") {
+            fetchAllPatients();
+        } else {
+            console.log("Fetching assigned patients for doctor:", user?.id);
+            fetchAssignedPatientsToDoctor(user?.id);
+        }
+    }, [user]);
+
+    // Global search: Filter patie(nts based on search term across all fields
+    const filteredPatients = (user?.role === "doctor" ? assignedPatients.map(patient => patient.patientId) : patients).filter(patient =>
         Object.values(patient).some(value =>
             String(value).toLowerCase().includes(searchTerm.toLowerCase())
         )
     );
+
+    console.log("Filtered Patients: ", filteredPatients);
 
     // Pagination logic
     const indexOfLastTicket = currentPage * patientsPerPage;
@@ -40,7 +59,8 @@ const TableComponent = ({ patients, title = "NO Title" }) => {
     };
 
     const handleRowClick = (id) => {
-        navigate(`/patients/${id}`);
+        user?.role === "receptionist" ? navigate(`/patients/${id}/manage`) :
+            navigate(`/patients/${id}`);
     };
 
     const getBadgeColor = (value) => {
@@ -105,11 +125,11 @@ const TableComponent = ({ patients, title = "NO Title" }) => {
                                         onClick={() => handleRowClick(patient._id)}
                                         className="hover:bg-gray-100 cursor-pointer"
                                     >
-                                        <td className="py-2 px-4 border">{patient.Card_number}</td>
-                                        <td className="py-2 px-4 border">{patient.Name}</td>
-                                        <td className="py-2 px-4 border">{patient.Gender}</td>
-                                        <td className="py-2 px-4 border">{patient.Department}</td>
-                                        <td className="py-2 px-4 border">{patient.Year}</td>
+                                        <td className="py-2 px-4 border">{patient.cardNumber}</td>
+                                        <td className="py-2 px-4 border">{patient.name}</td>
+                                        <td className="py-2 px-4 border">{patient.gender}</td>
+                                        <td className="py-2 px-4 border">{patient.department}</td>
+                                        <td className="py-2 px-4 border">{patient.year}</td>
 
                                         {/* <td className="py-2 px-4 border">
                                             <span className={`px-2 py-1 rounded-full text-white ${getBadgeColor(patient.priority)}`}>

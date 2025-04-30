@@ -1,34 +1,27 @@
-import React, { useState, useContext } from "react";
-// import { AuthContext } from "../../context/AuthContext";
+import React, { useState, useEffect } from "react";
 import image from "../../assets/image.png";
 import Header from "../../components/Header";
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
-import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext"; // Import the AuthContext
 
 const Login = () => {
-    // const { handleLogin } = useContext(AuthContext); // Use AuthContext
     const [data, setData] = useState({ email: "", password: "", rememberMe: false });
-    const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const { login, logout, user, error } = useAuth(); // Use the context to get the login function
 
     const handleChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
     };
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     setLoading(true);
-    //     setError("");
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
 
-    //     try {
-    //         await handleLogin({ email: data.email, password: data.password }); // Use Context function
-    //     } catch (errMsg) {
-    //         setError(errMsg);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
+        await logout(); // Ensure the user is logged out before logging in again
+        await login(data);
+        setLoading(false);
+    };
 
     return (
         <>
@@ -41,8 +34,9 @@ const Login = () => {
                         <h1 className="text-5xl font-bold">Welcome</h1>
 
                         <form
-                            // onSubmit={handleSubmit} 
-                            className="flex flex-col text-2xl text-left gap-3 w-full">
+                            onSubmit={handleSubmit}
+                            className="flex flex-col text-2xl text-left gap-3 w-full"
+                        >
                             <label>Email</label>
                             <input
                                 type="email"
@@ -66,13 +60,19 @@ const Login = () => {
                             <div className="flex gap-2 items-center">
                                 <input
                                     type="checkbox"
+                                    name="rememberMe"
                                     checked={data.rememberMe}
-                                    onChange={() => setData({ ...data, rememberMe: !data.rememberMe })}
+                                    onChange={(e) => setData({ ...data, rememberMe: e.target.checked })}
                                 />
                                 <span className="text-base">Remember Me</span>
                             </div>
 
-                            {error && <p className="text-red-500 text-sm">{error}</p>}
+                            {/* Display error message correctly */}
+                            {error && (
+                                <p className="text-red-600 text-sm mt-2">
+                                    {error}
+                                </p>
+                            )}
 
                             <button
                                 type="submit"
@@ -82,13 +82,6 @@ const Login = () => {
                                 {loading ? "Logging in..." : "Login"}
                             </button>
                         </form>
-
-                        <p>
-                            Don't have an account?{" "}
-                            <Link to="/register" className="text-blue-400 hover:underline">
-                                Register
-                            </Link>
-                        </p>
                     </div>
 
                     {/* Image */}
