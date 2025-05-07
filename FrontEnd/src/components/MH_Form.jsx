@@ -10,6 +10,7 @@ import { useAuth } from "../context/AuthContext"; // Import the custom hook
 import { createDiagnostic } from "../api/DiagnosticsAPI"; // Import the API function
 import { createAppointment } from "../api/Appointment"; // Import the API function
 import { createMedicalHistory } from "../api/MedicalHistoryAPI"; // Import the API function
+import { updateMedicalHistory } from "../api/MedicalHistoryAPI"; // Import the API function
 
 const MH_Form = ({ title = "New Patient" }) => {
     const navigate = useNavigate();
@@ -26,6 +27,8 @@ const MH_Form = ({ title = "New Patient" }) => {
     const [appointmentMessage, setAppointmentMessage] = useState("");
     // 
     const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [updateLoading, setUpdateLoading] = useState(false);
     const [error, setError] = useState(false);
     const [message, setMessage] = useState("");
     // 
@@ -77,10 +80,10 @@ const MH_Form = ({ title = "New Patient" }) => {
 
     // to add appointment
     const [appointment, setAppointment] = useState({
-        PatientId: 2,
-        DoctorId: 1,
-        medicalHistoryID: 1,
-        AppointmentDate: "",
+        patientID: patientId,
+        doctorID: user.id,
+        medicalHistoryID: mhId,
+        appointmentDate: "",
         note: "",
     });
 
@@ -118,6 +121,32 @@ const MH_Form = ({ title = "New Patient" }) => {
         }
     }
 
+    // Handle Update
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        setUpdateLoading(true);
+        console.log("Form Data: ", formData);
+        try {
+            const response = await updateMedicalHistory(mhId, formData);
+            console.log("Response from API:", response);
+            if (response.status === 200) {
+                setUpdateLoading(false);
+                setSuccess(true);
+                setError(false);
+                setMessage("✅ Medical history updated successfully!");
+                // fetchPatient(patientId); // Fetch the updated patient data
+                navigate(`/patients/${patientId}/medical-history/${mhId}`); // Navigate to the medical history page
+            }
+        } catch (error) {
+            setUpdateLoading(false);
+            setError(true);
+            setSuccess(false);
+            setMessage(`❌ ${error.response.data.message}`);
+            console.log(error);
+        }
+    }
+
+
     const handleAddNewDisease = async () => {
         if (newDisease.name.trim() === "") {
             setAddDiseaseError(true);
@@ -150,7 +179,7 @@ const MH_Form = ({ title = "New Patient" }) => {
             // Add new disease to the form data
             setFormData((prev) => ({
                 ...prev,
-                Diagnostics: [...prev.Diagnostics, newDisease.name],
+                Diagnostics: [...prev.diagnostics, newDisease.name],
             }));
         } catch (error) {
             setAddDiseaseError(true);
@@ -164,31 +193,32 @@ const MH_Form = ({ title = "New Patient" }) => {
     };
 
     // Handle Appointment Submission
-    const handleAppointmentSubmit = (e) => {
+    const handleAppointmentSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         console.log("Appointment: ", appointment);
 
-        if (appointment.AppointmentDate === "") {
+        if (appointment.appointmentDate === "") {
             setAppointmentError(true);
             setAppointmentMessage("❌ Appointment date is required!");
+            setLoading(false);
             return;
         }
 
         try {
             // Add appointment to database
-            const response = createAppointment(appointment);
-            if (response) {
+            const response = await createAppointment(appointment);
+            console.log("Response from API:", response);
+            if (response.status === 201) {
+                setLoading(false);
                 setAppointmentSuccess(true);
                 setAppointmentError(false);
                 setAppointmentMessage("✅ Appointment added successfully!");
-            } else {
-                setAppointmentError(true);
-                setAppointmentMessage("❌ Failed to add appointment!");
-                return;
             }
         } catch (error) {
+            setLoading(false);
             setAppointmentError(true);
-            setAppointmentMessage("❌ Failed to add appointment!");
+            setAppointmentMessage("❌ " + error.response.data.message || "Failed to add appointment!");
             return;
         }
     }
@@ -457,7 +487,7 @@ const MH_Form = ({ title = "New Patient" }) => {
                         <textarea
                             name={field}
                             id={field}
-                            value={medicalHistory?.[field] || formData[field] || ""}
+                            value={formData[field] || medicalHistory?.[field]}
                             onChange={handleChange}
                             required
                             className="mt-2 block w-full rounded-md border-gray-300 shadow-sm p-2" // ✅ Added "p-2"
@@ -468,7 +498,7 @@ const MH_Form = ({ title = "New Patient" }) => {
                 {/* Status */}
                 <div
                     className={`mt-4 border rounded-lg p-4 shadow-inner transition-all duration-300 
-    ${!medicalHistory ? "opacity-50 pointer-events-none" : ""}`}
+    ${!mhId ? "opacity-50 pointer-events-none" : ""}`}
                 >
                     <label htmlFor="Status" className="block text-sm font-medium text-gray-700">
                         Status:
@@ -502,10 +532,10 @@ const MH_Form = ({ title = "New Patient" }) => {
                             </label>
                             <input
                                 type="date"
-                                name="AppointmentDate"
-                                id="AppointmentDate"
-                                value={appointment.AppointmentDate}
-                                onChange={(e) => setAppointment({ ...appointment, AppointmentDate: e.target.value })}
+                                name="appointmentDate"
+                                id="appointmentDate"
+                                value={appointment.appointmentDate}
+                                onChange={(e) => setAppointment({ ...appointment, appointmentDate: e.target.value })}
                                 required
                                 className="mt-1 w-full rounded-lg border-2 border-blue-400 bg-blue-50 px-4 py-2 text-gray-900 shadow-md focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
                             />
@@ -530,7 +560,9 @@ const MH_Form = ({ title = "New Patient" }) => {
                                 className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-md shadow"
                                 onClick={handleAppointmentSubmit}
                             >
-                                Appoint
+                                {
+                                    loading ? "Appointing..." : "Appoint"
+                                }
                             </button>
                             <button
                                 type="button"
@@ -546,27 +578,46 @@ const MH_Form = ({ title = "New Patient" }) => {
                                 Cancel
                             </button>
                         </div>
+
+                        {/* Success/Error Message */}
+                        {appointmentMessage && <p className={`mt-4 text-sm ${appointmentError ? "text-red-500" : "text-green-500"}`}>{appointmentMessage}</p>}
                     </div>
                 )}
 
 
 
                 {/* Buttons */}
-                <div className="flex space-x-4">
-                    <button
-                        type="submit"
-                        className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
-                        onClick={handleSubmit}
-                    >
-                        Create Medical History
-                    </button>
-                    <button
-                        type="reset"
-                        className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition"
-                    >
-                        Reset
-                    </button>
-                </div>
+                {
+                    mhId ? (
+                        <div className="flex space-x-4">
+                            <button
+                                type="button"
+                                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+                                onClick={handleUpdate}
+                            >
+                                {
+                                    updateLoading ? "Updating..." : "Update Medical History"
+                                }
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="flex space-x-4">
+                            <button
+                                type="submit"
+                                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
+                                onClick={handleSubmit}
+                            >
+                                Create Medical History
+                            </button>
+                            <button
+                                type="reset"
+                                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition"
+                            >
+                                Reset
+                            </button>
+                        </div>
+                    )
+                }
 
                 {/* Success/Error Message */}
                 {message && <p className={`mt-4 text-sm ${error ? "text-red-500" : "text-green-500"}`}>{message}</p>}

@@ -25,7 +25,7 @@ const Information = ({ Tpatients = [], title = "Recent" }) => {
             {isOpen && (
                 <div className="mt-2 space-y-2">
                     {Tpatients.map(Tpatient => (
-                        <a key={Tpatient.id} href="#" className="block p-2 hover:bg-gray-100 rounded">
+                        <a key={Tpatient.id} href="" className="block p-2 hover:bg-gray-100 rounded">
                             <div className="text-blue-600">{Tpatient.name}</div>
                             <small className="text-gray-500">
                                 <span>

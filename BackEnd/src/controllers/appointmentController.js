@@ -6,20 +6,20 @@ import MedicalHistory from "../models/MedicalHistory.js";
 // create appointment
 export const createAppointment = async (req, res) => {
     // Check if the request body contains the required fields
-    if (!req?.body?.patientId || !req?.body?.doctorId || !req?.body?.medicalHistoryID) {
+    if (!req?.body?.patientID || !req?.body?.doctorID || !req?.body?.medicalHistoryID || !req?.body?.appointmentDate) {
         return res.status(400).json({ message: "Missing required fields" });
     }
 
-    const { patientId, doctorId, medicalHistoryID, note } = req?.body;
+    const { patientID, doctorID, medicalHistoryID, note } = req?.body;
 
     // Check if the patient exists
-    const patient = Patient.findById(patientId);
+    const patient = Patient.findById(patientID);
     if (!patient) {
         return res.status(404).json({ message: "Patient not found" });
     }
 
     // Check if the doctor exists
-    const doctor = await Doctor.findById(doctorId);
+    const doctor = await Doctor.findById(doctorID);
     if (!doctor) {
         return res.status(404).json({ message: "Doctor not found" });
     }
@@ -30,12 +30,31 @@ export const createAppointment = async (req, res) => {
         return res.status(404).json({ message: "Medical history not found" });
     }
 
+    // Check if the appointment exists
+    const existingAppointment = await AppointmentModel.findOne({
+        patientID: patientID,
+        doctorID: doctorID,
+        medicalHistoryID: medicalHistoryID,
+    });
+    if (existingAppointment) {
+        return res.status(400).json({ message: "Appointment already exists" });
+    }
+
+    // Check if the appointment date is in the future
+    console.log("Appointment Date:", req.body.appointmentDate);
+    const appointmentDate = new Date(req.body.appointmentDate);
+    console.log("Parsed Appointment Date:", appointmentDate);
+    if (appointmentDate <= new Date()) {
+        return res.status(400).json({ message: "Appointment date must be in the future" });
+    }
+
     try {
         // Create a new appointment
         const appointment = await AppointmentModel.create({
-            patientID: patientId,
-            doctorID: doctorId,
+            patientID: patientID,
+            doctorID: doctorID,
             medicalHistoryID: medicalHistoryID,
+            appointmentDate: appointmentDate,
             note: note,
         });
 

@@ -8,3 +8,6 @@ export const getAllMedicalHistory = () => API.get('/medical-history');
 
 // Get a specific medical history entry by ID
 export const getMedicalHistoryById = (id) => API.get(`/medical-history/${id}`);
+
+// Update a specific medical history entry by ID
+export const updateMedicalHistory = (id, data) => API.put(`/medical-history/${id}`, data);

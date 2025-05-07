@@ -15,13 +15,23 @@ const appointmentSchema = new mongoose.Schema(
         medicalHistoryID: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'MedicalHistory',
-            required: false,
+            required: true,
         },
         status: {
             type: String,
             enum: ['InProcess', 'Completed', 'Canceled'],
             default: 'InProcess',
             required: true,
+        },
+        appointmentDate: {
+            type: Date,
+            required: [true, 'Appointment date is required'],
+            validate: {
+                validator: function (v) {
+                    return v > new Date(); // Ensure future date
+                },
+                message: 'Appointment date must be in the future'
+            }
         },
         note: {
             type: String,
